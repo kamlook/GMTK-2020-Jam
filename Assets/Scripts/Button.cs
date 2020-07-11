@@ -11,6 +11,12 @@ public class Button : MonoBehaviour
       isPushed = true;
       GetComponent<Renderer>().material.SetColor("_Color", Color.green);
 
-      GetComponentInParent<ButtonSystem>().RegisterPush(id);
+      GetComponentInParent<ButtonModule>().RegisterPush(id);
+    }
+
+    public void UnPush() {
+      isPushed = false;
+
+      GetComponent<Renderer>().material.SetColor("_Color", Color.red);
     }
 }

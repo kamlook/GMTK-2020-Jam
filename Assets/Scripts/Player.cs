@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Entity
 {
     public Animator anim;
-
     public GameObject punchHitbox;
+    public RoomManager roomManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,17 +31,23 @@ public class Player : MonoBehaviour
       punchHitbox.SetActive(false);
     }
 
-    public void PunchCollision(Collider a_coll) {
-      // Debug.Log(a_coll);
-      a_coll.gameObject.GetComponent<Button>().Push();
-    }
-
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E)) {
             Attack();
         }
+    }
+
+    public override void HandleCollision(Collider a_coll) {
+      // Debug.Log(a_coll);
+      a_coll.gameObject.GetComponent<Button>().Push();
+    }
+
+    public override void Die() {
+        Debug.Log("Dead!");
+
+        roomManager.Respawn(this.gameObject);
     }
 
 
