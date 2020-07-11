@@ -114,7 +114,7 @@ public class IrcClient : MonoBehaviour
                     
                 // }
                 // // debug: print all irc messages
-                Debug.Log(line);
+                // Debug.Log(line);
             } catch (Exception e) {
                 Debug.Log(e);
             }
