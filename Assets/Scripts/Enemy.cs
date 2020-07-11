@@ -30,6 +30,8 @@ public class Enemy : Entity
             GetComponent<UnityStandardAssets.Characters.ThirdPerson.AICharacterControl>().SetTarget(waypoints[_currentWaypoint]);
           }
         }
+
+        base.OutOfBoundsCheck();
     }
 
     public override void HandleCollision(Collider c) {

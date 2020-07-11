@@ -8,6 +8,12 @@ public abstract class Entity : Attackable
 
     public abstract void Die();
 
+    public void OutOfBoundsCheck() {
+      if (transform.position.y <= -50) {
+        Die();
+      }
+    }
+
     public override void ProcessAttack() {
       Die();
     }

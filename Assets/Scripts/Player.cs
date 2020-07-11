@@ -37,6 +37,8 @@ public class Player : Entity
         if (Input.GetKeyDown(KeyCode.E)) {
             Attack();
         }
+
+        base.OutOfBoundsCheck();
     }
 
     public override void HandleCollision(Collider a_coll) {

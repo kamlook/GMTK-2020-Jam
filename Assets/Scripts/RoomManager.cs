@@ -8,7 +8,7 @@ public class RoomManager : MonoBehaviour
     public Transform spawnPoint;
     public ExitDoor exitDoor;
     public GameObject player;
-    public RoomModule[] modules;
+    public List<RoomModule> modules;
 
     private int _roomNumber;
     protected System.Random _random;  // For whenever the room itself needs some randomness
@@ -16,7 +16,7 @@ public class RoomManager : MonoBehaviour
 
     // Called by game manager to start the room
     public virtual void RoomStart(int roomNum, int seed, float roomSpeed) {
-      gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
+      gameManager = Object.FindObjectsOfType<GameManager>()[0];
       _roomNumber = roomNum;
       _random = new System.Random(seed);
 
@@ -26,7 +26,7 @@ public class RoomManager : MonoBehaviour
 
       Debug.Log(modules);
 
-      if (modules.Length > 0) {
+      if (modules.Count > 0) {
         LockDoor();
       }
 
@@ -46,6 +46,7 @@ public class RoomManager : MonoBehaviour
 
     // Takes the game speed sent from gameManager, and applies it to all the relevant objects in the room.
     public void SetRoomSpeed(float a_speed) {
+      Debug.Log(a_speed);
       player.GetComponent<UnityStandardAssets.Characters.ThirdPerson.ThirdPersonCharacter>().m_MoveSpeedMultiplier = a_speed;
       player.GetComponent<UnityStandardAssets.Characters.ThirdPerson.ThirdPersonCharacter>().m_AnimSpeedMultiplier = a_speed;
     }
