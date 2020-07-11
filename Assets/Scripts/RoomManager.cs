@@ -10,11 +10,11 @@ public class RoomManager : MonoBehaviour
     public GameObject player;
 
     private int _roomNumber;
-    private System.Random _random;  // For whenever the room itself needs some randomness
+    protected System.Random _random;  // For whenever the room itself needs some randomness
 
 
     // Called by game manager to start the room
-    public void RoomStart(int roomNum, int seed, float roomSpeed) {
+    public virtual void RoomStart(int roomNum, int seed, float roomSpeed) {
       _roomNumber = roomNum;
       _random = new System.Random(seed);
 
