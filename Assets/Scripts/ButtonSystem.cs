@@ -7,7 +7,13 @@ public class ButtonSystem : MonoBehaviour
     public Button[] buttons;
     public RoomManager roomManager;
 
+    public float timeLimit = 0;
+
     private int _buttonCount;
+    private bool _allButtonsArePushed = false;
+    private bool _timerStarted = false;
+    private float _timer = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,22 +34,44 @@ public class ButtonSystem : MonoBehaviour
       }
     }
 
+    private IEnumerator Countdown() {
+      _timer = 0;
+      while (_timer <= 1f) {
+        _timer += Time.deltaTime / timeLimit;
+
+        yield return null;
+
+      }
+      if (!_allButtonsArePushed) {
+        foreach (Button b in buttons) {
+          b.UnPush();
+        }
+        _timerStarted = false;
+      }
+    }
+
     void SendDoneSignal() {
       // Tell RoomManager that this button system is done
       roomManager.UnlockDoor();
     }
 
     public void RegisterPush(int id) {
-      bool allButtonsArePushed = true;
-
+      if (timeLimit > 0 && !_timerStarted) {
+        StartCoroutine(Countdown());
+        _timerStarted = true;
+      }
       foreach (Button b in buttons) {
         if (!b.isPushed) {
-          allButtonsArePushed = false;
-          break;
+          return;
         }
       }
-      if (allButtonsArePushed) {
-        SendDoneSignal();
-      }
+      // If we've made it here, all buttons are pushed!
+      _allButtonsArePushed = true;
+      SendDoneSignal();
+    }
+
+    public void OnGUI() {
+      if (_timerStarted)
+        GUI.Box(new Rect(10, 10, 150, 100), "Timer: " + (timeLimit - System.Math.Round(_timer, 2)) + " / " + timeLimit);
     }
 }

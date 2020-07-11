@@ -13,4 +13,10 @@ public class Button : MonoBehaviour
 
       GetComponentInParent<ButtonSystem>().RegisterPush(id);
     }
+
+    public void UnPush() {
+      isPushed = false;
+
+      GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+    }
 }

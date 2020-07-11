@@ -46,4 +46,10 @@ public class RoomManager : MonoBehaviour
     public void UnlockDoor() {
       exitDoor.Unlock();
     }
+
+    public void Respawn(GameObject a_player) {
+      a_player.transform.position = spawnPoint.transform.position;
+    }
+
+
 }
