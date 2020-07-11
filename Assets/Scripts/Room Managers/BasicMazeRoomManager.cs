@@ -1,18 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class BasicMazeRoomManager : RoomManager
 {
+    public Transform buttonModule;
     public Transform buttonSpawns;
-    public int maxNumberOfButtonsSpawned = 4;
-     public override void RoomStart(int roomNum, int seed, float roomSpeed) {
-         base.RoomStart(roomNum, seed, roomSpeed);
-         for (int i = 0; i < maxNumberOfButtonsSpawned; i++) {
+    private int[] _buttonSpawnPositions;
+
+    public override void RoomStart(int roomNum, int seed, float roomSpeed) {
+        base.RoomStart(roomNum, seed, roomSpeed);
+        int numButtons = buttonModule.childCount;
+        _buttonSpawnPositions = new int[4];
+        for (int i = 0; i < numButtons; i++) {
+            // check if there's already a button at this spot
             int nextSpawnPoint = _random.Next(buttonSpawns.childCount);
-            // @TODO make all of the spawns active by default
-            // @TODO and have them actually spawn buttons
-            buttonSpawns.GetChild(nextSpawnPoint).gameObject.SetActive(true);
+            if (Array.IndexOf(_buttonSpawnPositions, nextSpawnPoint) != -1) {
+                i--;
+                continue;
+            } else {
+                // place the button
+                buttonModule.GetChild(i).position = buttonSpawns.GetChild(nextSpawnPoint).position;
+                _buttonSpawnPositions[i] = nextSpawnPoint;
+            }
          }
      }
 
