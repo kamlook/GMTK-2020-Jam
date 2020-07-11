@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public GameObject[] rooms;
 
-    public float gameSpeed = 1.5f;
+    public float gameSpeed = 1;
 
     private int _currentRoom = 0;
     private int _seed;
