@@ -40,8 +40,9 @@ public class Player : Entity
     }
 
     public override void HandleCollision(Collider a_coll) {
-      // Debug.Log(a_coll);
-      a_coll.gameObject.GetComponent<Button>().Push();
+      if (a_coll.gameObject.TryGetComponent(out Attackable atk)) {
+        atk.ProcessAttack();
+      }
     }
 
     public override void Die() {

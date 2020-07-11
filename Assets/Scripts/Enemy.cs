@@ -20,22 +20,30 @@ public class Enemy : Entity
     // Update is called once per frame
     void Update()
     {
-        if (Vector3.Distance(transform.position, waypoints[_currentWaypoint].position) < stoppingDistance) {
-          _currentWaypoint++;
-          if (_currentWaypoint >= waypoints.Length) {
-            _currentWaypoint = 0;
-          }
+        if (waypoints.Length > 0) {
+          if (Vector3.Distance(transform.position, waypoints[_currentWaypoint].position) < stoppingDistance) {
+            _currentWaypoint++;
+            if (_currentWaypoint >= waypoints.Length) {
+              _currentWaypoint = 0;
+            }
 
-          GetComponent<UnityStandardAssets.Characters.ThirdPerson.AICharacterControl>().SetTarget(waypoints[_currentWaypoint]);
+            GetComponent<UnityStandardAssets.Characters.ThirdPerson.AICharacterControl>().SetTarget(waypoints[_currentWaypoint]);
+          }
         }
     }
 
     public override void HandleCollision(Collider c) {
-      c.gameObject.GetComponent<Player>().Die();
+      if (c.tag == "Player")
+        c.gameObject.GetComponent<Player>().Die();
     }
 
     public override void Die() {
-      GetComponentInParent<EnemiesModule>().EnemyKilled(id);
-      Destroy(this.gameObject);
+      try {
+        GetComponentInParent<EnemiesModule>().EnemyKilled(id);
+        Destroy(this.gameObject);
+      }
+      catch {
+        Debug.Log("This enemy is invincible, because it isn't attached to an EnemiesModule.");
+      }
     }
 }

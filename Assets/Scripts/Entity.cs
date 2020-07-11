@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Entity : MonoBehaviour
+public abstract class Entity : Attackable
 {
     public abstract void HandleCollision(Collider c);
 
     public abstract void Die();
+
+    public override void ProcessAttack() {
+      Die();
+    }
 }

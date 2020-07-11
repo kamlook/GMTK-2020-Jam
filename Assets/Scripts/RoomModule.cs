@@ -10,6 +10,7 @@ public class RoomModule : MonoBehaviour
 
     public void ModuleCompleted() {
       isCompleted = true;
+      Debug.Log("COMPLETE");
 
       roomManager.ModuleCompleted();
     }

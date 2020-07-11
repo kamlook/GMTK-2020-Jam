@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Button : MonoBehaviour
+public class Button : Attackable
 {
     public int id;
     public bool isPushed = false;
+
+    public override void ProcessAttack() {
+      Push();
+    }
 
     public void Push() {
       isPushed = true;
