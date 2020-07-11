@@ -31,7 +31,7 @@ public class ButtonModule : RoomModule
 
     private IEnumerator Countdown() {
       _timer = 0;
-      while (_timer <= 1f) {
+      while ((_timer <= timeLimit) && !_allButtonsArePushed) {
         _timer += Time.deltaTime / timeLimit;
 
         yield return null;
@@ -40,8 +40,8 @@ public class ButtonModule : RoomModule
         foreach (Button b in buttons) {
           b.UnPush();
         }
-        _timerStarted = false;
       }
+      _timerStarted = false;
     }
 
     public void RegisterPush(int id) {

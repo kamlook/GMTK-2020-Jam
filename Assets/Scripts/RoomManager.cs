@@ -16,14 +16,32 @@ public class RoomManager : MonoBehaviour
 
     // Called by game manager to start the room
     public virtual void RoomStart(int roomNum, int seed, float roomSpeed) {
+      gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
       _roomNumber = roomNum;
       _random = new System.Random(seed);
+
+      // Set up everything in this room so its public vars are pointing to the right place
+      exitDoor.roomManager = this;
+      player.GetComponent<Player>().roomManager = this;
+
+      Debug.Log(modules);
 
       if (modules.Length > 0) {
         LockDoor();
       }
 
       SetRoomSpeed(roomSpeed);
+    }
+    public void Update() {
+      // This is a temporary measure to check whether all modules are completed. For some reason it doesn't detect this on ModuleCompleted(), maybe because of prefabs?
+      foreach (RoomModule m in modules) {
+        if (!m.isCompleted) {
+          Debug.Log(m);
+          return;
+        }
+      }
+      // If we've made it here, all buttons are pushed!
+      UnlockDoor();
     }
 
     // Takes the game speed sent from gameManager, and applies it to all the relevant objects in the room.
@@ -42,6 +60,7 @@ public class RoomManager : MonoBehaviour
     }
 
     public void UnlockDoor() {
+      Debug.Log("UNLKC");
       exitDoor.Unlock();
     }
 
@@ -50,8 +69,10 @@ public class RoomManager : MonoBehaviour
     }
 
     public void ModuleCompleted() {
+      Debug.Log("ModuleCompleted");
       foreach (RoomModule m in modules) {
         if (!m.isCompleted) {
+          Debug.Log(m);
           return;
         }
       }
