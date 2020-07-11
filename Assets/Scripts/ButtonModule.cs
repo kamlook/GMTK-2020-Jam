@@ -8,6 +8,8 @@ public class ButtonModule : RoomModule
 
     public float timeLimit = 0;
 
+    public Transform[] spawnPositions;
+
     private int _buttonCount;
     private bool _allButtonsArePushed = false;
     private bool _timerStarted = false;

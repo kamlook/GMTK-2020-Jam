@@ -152,11 +152,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rooms: []
   gameSpeed: 1
-  smallRoomBasePrefab: {fileID: 5224367851973820041, guid: 2a3e7b586aab05141a23edf8ded80422,
-    type: 3}
-  modulePrefabs:
-  - {fileID: 1983429558637365250, guid: e730e9caaa12baf4898f2c9162eac4fa, type: 3}
-  - {fileID: 6379918936348333616, guid: 75e0afb8e6c51654780f04090a796fd7, type: 3}
+  roomTemplates:
+  - {fileID: 5224367851973820041, guid: 2a3e7b586aab05141a23edf8ded80422, type: 3}
+  - {fileID: 3396167390996264150, guid: dd87128adf6722642a90b8b71265d3c3, type: 3}
   _seedString: 
 --- !u!4 &332001990
 Transform:

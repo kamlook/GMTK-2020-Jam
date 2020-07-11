@@ -8,8 +8,8 @@ public class GameManager : MonoBehaviour
     public GameObject[] rooms;
 
     public float gameSpeed = 1;
-    public GameObject smallRoomBasePrefab;
-    public GameObject[] modulePrefabs;
+    // public GameObject smallRoomBasePrefab;
+    public GameObject[] roomTemplates;
 
     private int _currentRoom = 0;
     private int _seed;
@@ -41,29 +41,38 @@ public class GameManager : MonoBehaviour
       }
     }
 
+    // Generate an array of rooms
     GameObject[] GenerateRooms(int a_seed, int roomCount) {
       GameObject[] gs = new GameObject[roomCount];
       System.Random _random = new System.Random(_seed);
 
       for (int i=0; i<roomCount; i++) {
-        GameObject roomBase = Instantiate(smallRoomBasePrefab, new Vector3(0,0,0), Quaternion.identity);
-        GameObject module;
+        // Choose a random template
+        int rand_index = _random.Next(roomTemplates.Length);
 
-        // Choose a random module prefab
-        int module_index = (_random.Next(modulePrefabs.Length));
+        // Instantiate that template
+        GameObject rmTemplate = Instantiate(roomTemplates[rand_index], new Vector3(0,0,0), Quaternion.identity);
+        RoomManager rmManager = rmTemplate.GetComponentInChildren<RoomManager>();
 
-        module = Instantiate(modulePrefabs[module_index], new Vector3(0,0,0), Quaternion.identity);
+        // How many modules should we deactivate (based on difficulty)? (eventually this should be replaced by a config file, specifying allowable combos)
+        int numModules = i;
+        if (numModules > rmManager.modules.Count) {
+          numModules = rmManager.modules.Count;
+        }
+        int numModulesToDeactivate = rmManager.modules.Count - numModules;
 
-        module.transform.parent = roomBase.transform;
+        // Activate room modules
+        for (int j=0; j<numModulesToDeactivate; j++) {
+          // Choose a random module prefab
+          int module_index = _random.Next(rmManager.modules.Count);
 
-        RoomManager rManager = roomBase.GetComponentInChildren<RoomManager>();
-        RoomModule rModule = module.GetComponent<RoomModule>();
-        rManager.modules.Add(rModule);
-        rModule.roomManager = rManager;
+          rmManager.modules[module_index].gameObject.SetActive(false);
 
-        roomBase.SetActive(false);
+          rmManager.modules.RemoveAt(module_index);
+        }
 
-        gs[i] = roomBase;
+        rmTemplate.SetActive(false);
+        gs[i] = rmTemplate;
       }
       return gs;
     }

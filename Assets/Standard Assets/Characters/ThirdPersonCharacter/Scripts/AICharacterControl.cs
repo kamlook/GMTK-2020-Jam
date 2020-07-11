@@ -39,5 +39,10 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         {
             this.target = target;
         }
+
+        public void SetDestination(Vector3 vec) {
+          this.target = null;
+          agent.SetDestination(vec);
+        }
     }
 }

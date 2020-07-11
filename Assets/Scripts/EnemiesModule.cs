@@ -20,6 +20,7 @@ public class EnemiesModule : RoomModule
         //child is your child transform
         enemies[i] = child.GetComponent<Enemy>();
         enemies[i].id = i;
+        enemies[i].player = roomManager.player;
         i++;
       }
     }

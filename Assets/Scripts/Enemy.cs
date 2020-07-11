@@ -7,20 +7,33 @@ public class Enemy : Entity
     public int id;
     public Transform[] waypoints;
     public float stoppingDistance = 1;
+    public GameObject player;
+    public float maxChaseDistance = 0;
 
     private int _currentWaypoint = 0;
+    private Vector3 _spawnPosition;
+
+    public enum AIBehaviors {
+      Patrol,
+      Chase,
+      Flee
+    }
+
+    public AIBehaviors behavior = AIBehaviors.Patrol;
+
     // Start is called before the first frame update
     void Start()
     {
-        if (waypoints.Length > 0) {
+        if (waypoints.Length > 0 && behavior == AIBehaviors.Patrol) {
           GetComponent<UnityStandardAssets.Characters.ThirdPerson.AICharacterControl>().SetTarget(waypoints[_currentWaypoint]);
         }
+        _spawnPosition = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (waypoints.Length > 0) {
+        if (waypoints.Length > 0 && behavior == AIBehaviors.Patrol) {
           if (Vector3.Distance(transform.position, waypoints[_currentWaypoint].position) < stoppingDistance) {
             _currentWaypoint++;
             if (_currentWaypoint >= waypoints.Length) {
@@ -29,6 +42,16 @@ public class Enemy : Entity
 
             GetComponent<UnityStandardAssets.Characters.ThirdPerson.AICharacterControl>().SetTarget(waypoints[_currentWaypoint]);
           }
+        }
+        else if (behavior == AIBehaviors.Chase) {
+          Debug.Log(Vector3.Distance(transform.position, _spawnPosition));
+          if (Vector3.Distance(transform.position, _spawnPosition) < maxChaseDistance) {
+            GetComponent<UnityStandardAssets.Characters.ThirdPerson.AICharacterControl>().SetTarget(player.transform);
+          }
+          else {
+            GetComponent<UnityStandardAssets.Characters.ThirdPerson.AICharacterControl>().SetDestination(_spawnPosition);
+          }
+
         }
 
         base.OutOfBoundsCheck();
