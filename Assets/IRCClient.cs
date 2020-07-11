@@ -4,13 +4,16 @@ using UnityEngine;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 public class IRCClient : MonoBehaviour
 {
     public string TestMessage;
     public bool SendTestMessage;
-    private string _nickname = "Brandon";
-    private string _channel = "iofEFNIO3rfrK390";
+    public string nickname = "mrbrandon";
+    private string _channel = "dobdob";  // MUST NOT HAVE CAPITAL LETTERS
     private string _server = "irc.freenode.net";
     private int _port=6667;
     private StreamReader _streamReader;
@@ -25,11 +28,17 @@ public class IRCClient : MonoBehaviour
         _streamReader = new StreamReader(_tcpClient.GetStream());
         _streamWriter = new StreamWriter(_tcpClient.GetStream());
 
+        // Debug.Log("Joining the channel");
         // join the irc room
-        _streamWriter.WriteLine("NICK " + _nickname);
-        _streamWriter.WriteLine("USER " + _nickname + " * * :" + _nickname);
+        _streamWriter.WriteLine("PASS " + "password");
+        _streamWriter.WriteLine("NICK " + nickname);
+        _streamWriter.WriteLine("USER " + nickname + " 8 * :" + nickname);
         _streamWriter.WriteLine("JOIN #" + _channel);
         _streamWriter.Flush();
+
+        // Create a task for reading messages from IRC
+        Task taskReceiveMessages = new Task( () => ReceiveMessages(_streamReader));
+        taskReceiveMessages.Start();
     }
 
     // Update is called once per frame
@@ -40,18 +49,27 @@ public class IRCClient : MonoBehaviour
         {
             SendTestMessage = false;
             SendMessage(TestMessage);
-        }
-
-        // read messages
-        while(_streamReader.Peek() >= 0)
-        {
-            Debug.Log(_streamReader.ReadLine());
-        }
+        }        
     }
 
-    public void SendMessage(string a_message)
+    public void SendMessage(string arg_message)
     {
-        _streamWriter.WriteLine("PRIVMSG #" + _channel + " :" + a_message);
+        _streamWriter.WriteLine("PRIVMSG #" + _channel + " :" + arg_message);
+        // _streamWriter.WriteLine(arg_message);
         _streamWriter.Flush();
+    }
+
+    public void ReceiveMessages(StreamReader arg_streamReader) {
+        string line = null;
+        do {
+            // read messages
+            try {
+                line = arg_streamReader.ReadLine();
+                Debug.Log(line);
+            } catch (Exception e) {
+                Debug.Log(e);
+            }
+        } while (line != null);
+        
     }
 }
