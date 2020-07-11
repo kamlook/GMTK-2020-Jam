@@ -384,6 +384,53 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &336822027
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 336822028}
+  - component: {fileID: 336822029}
+  m_Layer: 0
+  m_Name: EnemiesModule
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &336822028
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 336822027}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 462518692}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &336822029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 336822027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2596afe964d9cff4db62b66f9d8a3bb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomManager: {fileID: 1074898370}
+  isCompleted: 0
+  enemies:
+  - {fileID: 0}
 --- !u!1 &462518691
 GameObject:
   m_ObjectHideFlags: 0
@@ -422,6 +469,7 @@ Transform:
   - {fileID: 1234550856}
   - {fileID: 929066038}
   - {fileID: 565833322}
+  - {fileID: 336822028}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -608,7 +656,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 408730, guid: 7737647c22c1fc64a88d5cd030c352ce, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 408730, guid: 7737647c22c1fc64a88d5cd030c352ce, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -889,6 +937,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7ad563cfba36e24e8c1c77c3ffd1f54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
   waypoints:
   - {fileID: 1303137401}
   - {fileID: 556010195}
@@ -1065,7 +1114,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 436670, guid: 54eb5844754051b40a918a84c33b7c1a, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 436670, guid: 54eb5844754051b40a918a84c33b7c1a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1114,6 +1163,9 @@ MonoBehaviour:
   spawnPoint: {fileID: 1986684613}
   exitDoor: {fileID: 1912809904}
   player: {fileID: 565833323}
+  modules:
+  - {fileID: 1234550857}
+  - {fileID: 0}
 --- !u!4 &1074898371
 Transform:
   m_ObjectHideFlags: 0
@@ -1245,7 +1297,7 @@ GameObject:
   - component: {fileID: 1234550856}
   - component: {fileID: 1234550857}
   m_Layer: 0
-  m_Name: ButtonSystem
+  m_Name: ButtonModule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1279,8 +1331,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e875cf92e93732b4ea1137eb6504dce3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttons: []
   roomManager: {fileID: 1074898370}
+  isCompleted: 0
+  buttons: []
   timeLimit: 2
 --- !u!1 &1303137400
 GameObject:
@@ -1935,6 +1988,7 @@ MonoBehaviour:
   spawnPoint: {fileID: 185944551}
   exitDoor: {fileID: 1989584097}
   player: {fileID: 2006475846}
+  modules: []
 --- !u!4 &2039234207
 Transform:
   m_ObjectHideFlags: 0

@@ -31,11 +31,6 @@ public class Player : Entity
       punchHitbox.SetActive(false);
     }
 
-    public override void HandleCollision(Collider a_coll) {
-      // Debug.Log(a_coll);
-      a_coll.gameObject.GetComponent<Button>().Push();
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -44,7 +39,12 @@ public class Player : Entity
         }
     }
 
-    public void Die() {
+    public override void HandleCollision(Collider a_coll) {
+      // Debug.Log(a_coll);
+      a_coll.gameObject.GetComponent<Button>().Push();
+    }
+
+    public override void Die() {
         Debug.Log("Dead!");
 
         roomManager.Respawn(this.gameObject);

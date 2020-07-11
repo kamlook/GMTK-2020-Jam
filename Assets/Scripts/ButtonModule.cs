@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ButtonSystem : MonoBehaviour
+public class ButtonModule : RoomModule
 {
     public Button[] buttons;
-    public RoomManager roomManager;
 
     public float timeLimit = 0;
 
@@ -17,10 +16,6 @@ public class ButtonSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      roomManager = GameObject.FindWithTag("RoomManager").GetComponent<RoomManager>();
-
-      roomManager.LockDoor();
-
       _buttonCount = this.transform.childCount;
       buttons = new Button[_buttonCount];
 
@@ -40,7 +35,6 @@ public class ButtonSystem : MonoBehaviour
         _timer += Time.deltaTime / timeLimit;
 
         yield return null;
-
       }
       if (!_allButtonsArePushed) {
         foreach (Button b in buttons) {
@@ -48,11 +42,6 @@ public class ButtonSystem : MonoBehaviour
         }
         _timerStarted = false;
       }
-    }
-
-    void SendDoneSignal() {
-      // Tell RoomManager that this button system is done
-      roomManager.UnlockDoor();
     }
 
     public void RegisterPush(int id) {
@@ -67,7 +56,8 @@ public class ButtonSystem : MonoBehaviour
       }
       // If we've made it here, all buttons are pushed!
       _allButtonsArePushed = true;
-      SendDoneSignal();
+
+      ModuleCompleted();
     }
 
     public void OnGUI() {

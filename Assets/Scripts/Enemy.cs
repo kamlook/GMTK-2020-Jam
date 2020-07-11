@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy : Entity
 {
+    public int id;
     public Transform[] waypoints;
     public float stoppingDistance = 1;
 
@@ -31,5 +32,10 @@ public class Enemy : Entity
 
     public override void HandleCollision(Collider c) {
       c.gameObject.GetComponent<Player>().Die();
+    }
+
+    public override void Die() {
+      GetComponentInParent<EnemiesModule>().EnemyKilled(id);
+      Destroy(this.gameObject);
     }
 }
