@@ -25,13 +25,23 @@ public class GameManager : MonoBehaviour
       Debug.Log(_seed);
 
       rooms[_currentRoom].SetActive(true);
-      rooms[_currentRoom].GetComponentInChildren<RoomManager>().RoomStart(_currentRoom, _seed + _currentRoom);
+      rooms[_currentRoom].GetComponentInChildren<RoomManager>().RoomStart(_currentRoom, _seed + _currentRoom, gameSpeed);
     }
 
     // Update is called once per frame
     void Update()
     {
+      if (Input.GetKeyDown(KeyCode.F)) {
+        IncreaseGameSpeed(0.1f);
+      }
+    }
 
+    public void IncreaseGameSpeed(float a_amount) {
+      gameSpeed += a_amount;
+
+      Debug.Log("GAME SPEED = " + gameSpeed);
+
+      rooms[_currentRoom].GetComponentInChildren<RoomManager>().SetRoomSpeed(gameSpeed);
     }
 
     public void RoomCompleted() {
@@ -46,7 +56,7 @@ public class GameManager : MonoBehaviour
       }
       else {
         rooms[_currentRoom].SetActive(true);
-        rooms[_currentRoom].GetComponentInChildren<RoomManager>().RoomStart(_currentRoom, _seed + _currentRoom);
+        rooms[_currentRoom].GetComponentInChildren<RoomManager>().RoomStart(_currentRoom, _seed + _currentRoom, gameSpeed);
       }
     }
 }

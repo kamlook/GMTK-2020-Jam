@@ -541,6 +541,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 149790, guid: 7737647c22c1fc64a88d5cd030c352ce, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 408730, guid: 7737647c22c1fc64a88d5cd030c352ce, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.7
@@ -864,7 +868,7 @@ GameObject:
   - component: {fileID: 1074898370}
   m_Layer: 0
   m_Name: RoomManager
-  m_TagString: Untagged
+  m_TagString: RoomManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -883,7 +887,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 332001989}
   spawnPoint: {fileID: 1986684613}
-  exitDoor: {fileID: 1912809899}
+  exitDoor: {fileID: 1912809904}
+  player: {fileID: 565833323}
 --- !u!4 &1074898371
 Transform:
   m_ObjectHideFlags: 0
@@ -1050,7 +1055,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttons: []
-  gameManager: {fileID: 0}
+  roomManager: {fileID: 1074898370}
 --- !u!1 &1457774609
 GameObject:
   m_ObjectHideFlags: 0
@@ -1325,6 +1330,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomManager: {fileID: 1074898370}
+  isLocked: 0
 --- !u!1 &1986684612
 GameObject:
   m_ObjectHideFlags: 0
@@ -1402,6 +1408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomManager: {fileID: 2039234206}
+  isLocked: 0
 --- !u!136 &1989584098
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1669,7 +1676,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 332001989}
   spawnPoint: {fileID: 185944551}
-  exitDoor: {fileID: 1989584095}
+  exitDoor: {fileID: 1989584097}
+  player: {fileID: 2006475846}
 --- !u!4 &2039234207
 Transform:
   m_ObjectHideFlags: 0
