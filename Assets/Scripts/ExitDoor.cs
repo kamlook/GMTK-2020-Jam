@@ -5,8 +5,23 @@ using UnityEngine;
 public class ExitDoor : MonoBehaviour
 {
     public RoomManager roomManager;
-    // Start is called before the first frame update
+    public bool isLocked = false;
+
+
     void OnTriggerEnter() {
-      roomManager.RoomCompleted();
+      if (!isLocked)
+        roomManager.RoomCompleted();
+    }
+
+    public void Lock() {
+      isLocked = true;
+
+      GetComponent<Renderer>().material.SetColor("_Color", Color.black);
+    }
+
+    public void Unlock() {
+      isLocked = false;
+
+      GetComponent<Renderer>().material.SetColor("_Color", Color.white);
     }
 }

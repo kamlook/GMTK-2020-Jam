@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
 
     // This function is triggered at the "hit" portion of the anim
     public void Hit() {
-      Debug.Log("YEA");
+      // Debug.Log("YEA");
 
       // Check overlap of punch hitbox
 
@@ -31,8 +31,8 @@ public class Player : MonoBehaviour
     }
 
     public void PunchCollision(Collider a_coll) {
-      Debug.Log(a_coll);
-      a_coll.gameObject.GetComponent<Renderer>().material.SetColor("_Color", Color.green);
+      // Debug.Log(a_coll);
+      a_coll.gameObject.GetComponent<Button>().Push();
     }
 
     // Update is called once per frame
