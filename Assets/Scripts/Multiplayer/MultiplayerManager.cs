@@ -5,19 +5,44 @@ using UnityEngine;
 public class MultiplayerManager : MonoBehaviour
 {
     public string RoomID;
-    public bool IsHost = false;
+    public string username = "mrbrandon";
     public IrcClient ircClient;
+    private bool _isHost = false;
+    
+    void Awake()
+    {
+        DontDestroyOnLoad(this.gameObject);
+    }
+    
     // Start is called before the first frame update
     void Start()
     {
-        RoomID = ircClient.HostGame();
-        Debug.Log(RoomID);
+
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public string HostGame()
+    {
+        if (RoomID == "")
+        {
+            RoomID = ircClient.HostGame();
+        }
+        return RoomID;
+    }
+
+    public void JoinGame(string arg_RoomID)
+    {
+        if (RoomID == "")
+        {
+            RoomID = arg_RoomID.Trim();
+            ircClient.JoinGame(RoomID, username);
+            Debug.Log("Joining game: " + RoomID);
+        }
     }
 
     // called whenever there's a new multiplayer event

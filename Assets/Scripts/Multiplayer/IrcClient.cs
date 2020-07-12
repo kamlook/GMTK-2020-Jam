@@ -15,7 +15,7 @@ public class IrcClient : MonoBehaviour
     public bool sendTestMessage;
     private string _roomcodePrefix = "ghae89n3";
     private string _roomcode;
-    public string _username = "mrbrandon";
+    public string _username = "";
     private string _nickname_prefix = "mtk";
     private string _combined_nickname;
     private string _findGameschannel = "uihefoefahhivaezp";  // MUST NOT HAVE CAPITAL LETTERS
@@ -33,7 +33,28 @@ public class IrcClient : MonoBehaviour
     {
         eventQueue = new ConcurrentQueue<Dictionary<string, string>>();
         _combined_nickname = _nickname_prefix + _username;
+    }
 
+    // Update is called once per frame
+    void Update()
+    {
+        // send test message
+        if (sendTestMessage)
+        {
+            sendTestMessage = false;
+            SendIrcMessage(testMessage);
+        }     
+
+        // for each event in the eventQueue,
+        // synchronously call OnEvent on the MultiplayerManager
+        Dictionary<string, string> nextEvent;
+        while (eventQueue.TryDequeue(out nextEvent)) {
+            OnEvent(nextEvent);
+        }
+    }
+
+    public void InitializeIrc()
+    {
         // initialize connection
         _tcpClient = new TcpClient(_server, _port);
         _streamReader = new StreamReader(_tcpClient.GetStream());
@@ -54,24 +75,6 @@ public class IrcClient : MonoBehaviour
         // Create a task for reading messages from IRC
         Task taskReceiveMessages = new Task( () => AsyncReceiveMessages(_streamReader));
         taskReceiveMessages.Start();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // send test message
-        if (sendTestMessage)
-        {
-            sendTestMessage = false;
-            SendIrcMessage(testMessage);
-        }     
-
-        // for each event in the eventQueue,
-        // synchronously call OnEvent on the MultiplayerManager
-        Dictionary<string, string> nextEvent;
-        while (eventQueue.TryDequeue(out nextEvent)) {
-            OnEvent(nextEvent);
-        }
     }
 
     public void SendIrcMessage(string arg_message)
@@ -114,7 +117,7 @@ public class IrcClient : MonoBehaviour
                     
                 // }
                 // // debug: print all irc messages
-                // Debug.Log(line);
+                Debug.Log(line);
             } catch (Exception e) {
                 Debug.Log(e);
             }
@@ -144,6 +147,7 @@ public class IrcClient : MonoBehaviour
     }
 
     public string HostGame() {
+        InitializeIrc();
         MakeRoomCode(5);
         _streamWriter.WriteLine("JOIN " + _roomcode);
         _streamWriter.Flush();
@@ -151,12 +155,16 @@ public class IrcClient : MonoBehaviour
         return _roomcode;
     }
 
-    public void JoinGame(string arg_roomcode) {
+    public void JoinGame(string arg_roomcode, string arg_username) {
+        InitializeIrc();
         if (arg_roomcode[0] != '#') {
-            arg_roomcode = "#" + arg_roomcode;
+            _roomcode = "#" + arg_roomcode;
+        } else {
+            _roomcode = arg_roomcode;
         }
-        _roomcode = arg_roomcode;
-        _streamWriter.WriteLine("JOIN " + arg_roomcode);
+        _username = arg_username;
+        Debug.Log("JOIN " + arg_roomcode);
+        _streamWriter.WriteLine("JOIN " + arg_roomcode.Trim());
         _streamWriter.Flush();
         _connectToGame = true;
     }
