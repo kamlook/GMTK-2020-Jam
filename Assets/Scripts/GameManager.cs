@@ -28,8 +28,12 @@ public class GameManager : MonoBehaviour
       else {
         _seed = _seedString.GetHashCode();
       }
-      if (DEBUG_MODE)
+      if (DEBUG_MODE) {
+        System.Random _random = new System.Random(_seed);
+        rooms[0].SetActive(true);
+        rooms[0].GetComponentInChildren<RoomManager>().RoomStart(_currentRoom, _seed + _currentRoom, gameSpeed);
         return;
+      }
 
       // Generate rooms
       rooms = GenerateRooms(_seed, 10);
@@ -58,6 +62,7 @@ public class GameManager : MonoBehaviour
         // Instantiate that template
         GameObject rmTemplate = Instantiate(roomTemplates[rand_index], new Vector3(0,0,0), Quaternion.identity);
         RoomManager rmManager = rmTemplate.GetComponentInChildren<RoomManager>();
+        rmManager.gameManager = GetComponent<GameManager>();
 
         // How many modules should we deactivate (based on difficulty)? (eventually this should be replaced by a config file, specifying allowable combos)
         int numModules = i;

@@ -59,7 +59,26 @@ public class Enemy : Entity
 
         // FLEE
         else if (behavior == AIBehaviors.Flee) {
-          GetComponent<UnityStandardAssets.Characters.ThirdPerson.AICharacterControl>().SetDestination(transform.position - player.transform.position);
+          Vector3 newPos;
+          if (Vector3.Distance(transform.position, player.transform.position) > maxChaseDistance) {
+            float farthestDist = 0;
+            Transform dest = waypoints[0];
+            foreach (Transform w in waypoints) {
+              float dist = Vector3.Distance(w.position, player.transform.position);
+              if (dist > farthestDist) {
+                dest = w;
+                farthestDist = dist;
+              }
+            }
+            newPos = dest.position;
+          }
+          else
+          {
+            Vector3 dirToPlayer = transform.position - player.transform.position;
+            newPos = transform.position + dirToPlayer;
+          }
+
+          GetComponent<UnityStandardAssets.Characters.ThirdPerson.AICharacterControl>().SetDestination(newPos);
         }
 
         base.OutOfBoundsCheck();

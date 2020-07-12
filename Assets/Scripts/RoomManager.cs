@@ -16,8 +16,8 @@ public class RoomManager : MonoBehaviour
 
     // Called by game manager to start the room
     public virtual void RoomStart(int roomNum, int seed, float roomSpeed) {
-      gameManager = Object.FindObjectsOfType<GameManager>()[0];
-      _roomNumber = roomNum;
+      Debug.Log("START");
+       _roomNumber = roomNum;
       _random = new System.Random(seed);
 
       // Set up everything in this room so its public vars are pointing to the right place
@@ -26,6 +26,9 @@ public class RoomManager : MonoBehaviour
 
       if (modules.Count > 0) {
         LockDoor();
+        foreach (RoomModule m in modules) {
+          m.Load();
+        }
       }
 
       SetRoomSpeed(roomSpeed);
@@ -45,13 +48,17 @@ public class RoomManager : MonoBehaviour
     // Takes the game speed sent from gameManager, and applies it to all the relevant objects in the room.
     public void SetRoomSpeed(float a_speed) {
       Debug.Log(a_speed);
-      player.GetComponent<UnityStandardAssets.Characters.ThirdPerson.ThirdPersonCharacter>().m_MoveSpeedMultiplier = a_speed;
-      player.GetComponent<UnityStandardAssets.Characters.ThirdPerson.ThirdPersonCharacter>().m_AnimSpeedMultiplier = a_speed;
+      // player.GetComponent<UnityStandardAssets.Characters.ThirdPerson.ThirdPersonCharacter>().m_MoveSpeedMultiplier = a_speed;
+      // player.GetComponent<UnityStandardAssets.Characters.ThirdPerson.ThirdPersonCharacter>().m_AnimSpeedMultiplier = a_speed;
     }
 
     // Tell the game manager that this room is completed
     public void RoomCompleted() {
       gameManager.RoomCompleted();
+    }
+
+    public int GetRandom(int r) {
+      return _random.Next(r);
     }
 
     public void LockDoor() {

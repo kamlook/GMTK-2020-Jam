@@ -8,6 +8,10 @@ public class RoomModule : MonoBehaviour
 
     public bool isCompleted = false;
 
+    public virtual void Load() {
+
+    }
+
     public void ModuleCompleted() {
       isCompleted = true;
       Debug.Log("COMPLETE");

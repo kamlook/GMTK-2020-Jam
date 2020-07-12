@@ -4,30 +4,47 @@ using UnityEngine;
 
 public class ButtonModule : RoomModule
 {
-    public Button[] buttons;
+    public int buttonCount;
+    public GameObject buttonPrefab;
 
     public float timeLimit = 0;
 
     public Transform[] spawnPositions;
 
-    private int _buttonCount;
+
+    private Button[] _buttons;
     private bool _allButtonsArePushed = false;
     private bool _timerStarted = false;
     private float _timer = 0;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-      _buttonCount = this.transform.childCount;
-      buttons = new Button[_buttonCount];
 
-      int i = 0;
-      foreach (Transform child in transform)
-      {
-        //child is your child transform
-        buttons[i] = child.GetComponent<Button>();
-        buttons[i].id = i;
-        i++;
+    }
+
+    public override void Load() {
+      if (buttonCount > spawnPositions.Length) {
+        buttonCount = spawnPositions.Length;
+      }
+      _buttons = new Button[buttonCount];
+
+      List<int> selectedIndices = new List<int>();
+
+      for (int i=0; i<buttonCount; i++) {
+        // Spawn buttons at button spawn points
+        int ind = roomManager.GetRandom(spawnPositions.Length);
+        Debug.Log(selectedIndices);
+        while (selectedIndices.Contains(ind)) {
+          ind = roomManager.GetRandom(spawnPositions.Length);
+        }
+        selectedIndices.Add(ind);
+
+        Debug.Log(ind);
+
+        GameObject go = Instantiate(buttonPrefab, spawnPositions[ind]);
+
+        go.transform.SetParent(transform);
+        _buttons[i] = go.GetComponent<Button>();
       }
     }
 
@@ -39,7 +56,7 @@ public class ButtonModule : RoomModule
         yield return null;
       }
       if (!_allButtonsArePushed) {
-        foreach (Button b in buttons) {
+        foreach (Button b in _buttons) {
           b.UnPush();
         }
       }
@@ -51,7 +68,7 @@ public class ButtonModule : RoomModule
         StartCoroutine(Countdown());
         _timerStarted = true;
       }
-      foreach (Button b in buttons) {
+      foreach (Button b in _buttons) {
         if (!b.isPushed) {
           return;
         }
