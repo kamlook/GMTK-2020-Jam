@@ -905,9 +905,7 @@ GameObject:
   - component: {fileID: 2878245902530705952}
   - component: {fileID: 2878245902521527522}
   - component: {fileID: 2878245902534052852}
-  - component: {fileID: 2878245902527039396}
-  - component: {fileID: 2878245902524990694}
-  - component: {fileID: 2878245902524900546}
+  - component: {fileID: 472255894231195257}
   - component: {fileID: 2878245902531086015}
   m_Layer: 0
   m_Name: Player
@@ -969,8 +967,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!136 &2878245902527039396
-CapsuleCollider:
+--- !u!143 &472255894231195257
+CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -979,42 +977,14 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.3
-  m_Height: 1.6
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.8, z: 0}
---- !u!114 &2878245902524990694
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2878245902530940836}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce7a80d520cacc042b5fe14f373d8173, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MovingTurnSpeed: 720
-  m_StationaryTurnSpeed: 180
-  m_JumpPower: 6
-  m_GravityMultiplier: 2
-  m_RunCycleLegOffset: 0.2
-  m_MoveSpeedMultiplier: 1
-  m_AnimSpeedMultiplier: 1
-  m_GroundCheckDistance: 0.3
---- !u!114 &2878245902524900546
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2878245902530940836}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 521b611700410be45810047f0a74e899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  serializedVersion: 2
+  m_Height: 1.75
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0.73, z: 0}
 --- !u!114 &2878245902531086015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1027,9 +997,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a6eff65f7a6cd041a60dab2ab6911bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 0}
+  anim: {fileID: 2878245902521527522}
   punchHitbox: {fileID: 2878245904276579936}
   roomManager: {fileID: 0}
+  sceneCamera: {fileID: 0}
+  speed: 8
 --- !u!1 &2878245902530941688
 GameObject:
   m_ObjectHideFlags: 0

@@ -24,8 +24,6 @@ public class RoomManager : MonoBehaviour
       exitDoor.roomManager = this;
       player.GetComponent<Player>().roomManager = this;
 
-      Debug.Log(modules);
-
       if (modules.Count > 0) {
         LockDoor();
       }

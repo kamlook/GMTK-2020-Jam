@@ -33,6 +33,7 @@ public class Enemy : Entity
     // Update is called once per frame
     void Update()
     {
+        // PATROL
         if (waypoints.Length > 0 && behavior == AIBehaviors.Patrol) {
           if (Vector3.Distance(transform.position, waypoints[_currentWaypoint].position) < stoppingDistance) {
             _currentWaypoint++;
@@ -43,15 +44,22 @@ public class Enemy : Entity
             GetComponent<UnityStandardAssets.Characters.ThirdPerson.AICharacterControl>().SetTarget(waypoints[_currentWaypoint]);
           }
         }
+
+        // CHASE
         else if (behavior == AIBehaviors.Chase) {
-          Debug.Log(Vector3.Distance(transform.position, _spawnPosition));
-          if (Vector3.Distance(transform.position, _spawnPosition) < maxChaseDistance) {
+          if (Vector3.Distance(transform.position, _spawnPosition) < maxChaseDistance &&
+              Vector3.Distance(_spawnPosition, player.transform.position) < maxChaseDistance) {
             GetComponent<UnityStandardAssets.Characters.ThirdPerson.AICharacterControl>().SetTarget(player.transform);
           }
           else {
             GetComponent<UnityStandardAssets.Characters.ThirdPerson.AICharacterControl>().SetDestination(_spawnPosition);
           }
 
+        }
+
+        // FLEE
+        else if (behavior == AIBehaviors.Flee) {
+          GetComponent<UnityStandardAssets.Characters.ThirdPerson.AICharacterControl>().SetDestination(transform.position - player.transform.position);
         }
 
         base.OutOfBoundsCheck();

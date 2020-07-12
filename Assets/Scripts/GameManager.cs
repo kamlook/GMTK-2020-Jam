@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour
     // public GameObject smallRoomBasePrefab;
     public GameObject[] roomTemplates;
 
+    public bool DEBUG_MODE = false;
+
+
     private int _currentRoom = 0;
     private int _seed;
     public string _seedString = "";
@@ -25,6 +28,8 @@ public class GameManager : MonoBehaviour
       else {
         _seed = _seedString.GetHashCode();
       }
+      if (DEBUG_MODE)
+        return;
 
       // Generate rooms
       rooms = GenerateRooms(_seed, 10);
